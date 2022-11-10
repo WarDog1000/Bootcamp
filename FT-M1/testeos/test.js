@@ -42,14 +42,21 @@ function nFactorial(n) {
   if (n === 0) return 1;
   return n * nFactorial(n - 1);
 }
-
 console.log(nFactorial(5));
 console.clear();
 
 // Fibonasi
 function nFibonacci(n) {
-  
+  if(n === 0) {
+    return 0;
+  }else if(n === 1){
+    return 1;
+  }else{
+    return nFibonacci(n -2) + nFibonacci(n -1);
+  }
 }
+console.log(nFibonacci(4));
+console.clear();
 
 //-----------------------------------------------------
 // STACK => LIFO (last in, first out)
@@ -61,11 +68,11 @@ Stack.prototype.setPush = function (value) {
   this.arr.push(value);
 }
 
-Stack.prototype.setPop = function (value) {
+Stack.prototype.setPop = function () {
   this.arr.pop();
 }
 
-Stack.prototype.getSize = function (value) {
+Stack.prototype.getSize = function () {
   return this.arr.length;
 }
 
@@ -78,10 +85,40 @@ console.log(miStack);
 miStack.setPop();
 console.log(miStack);
 console.log(miStack.getSize());
-// console.clear();
+console.clear();
 
 //-----------------------------------------------------
 // QUEUE => FIFO (firt in, first out)
+function Queue() {
+  this.array = [];
+}
 
+Queue.prototype.enqueue = function (value) {
+  return this.array.push(value);
+}
 
-//-----------------------------------------------------
+Queue.prototype.dequeue = function () {
+  if(this.array.lenth <=0){
+    return undefined;
+  }
+  return this.array.shift();
+}
+
+Queue.prototype.size = function () {
+  return this.array.length;
+}
+
+var miQueue = new Queue();
+console.log(miQueue);
+miQueue.enqueue(0);
+
+miQueue.enqueue(1);
+miQueue.enqueue(2);
+miQueue.enqueue(3);
+miQueue.enqueue(4);
+console.log(miQueue);
+miQueue.dequeue();
+console.log(miQueue);
+console.log(miQueue.size());
+console.clear();
+//-----------------------clear------------------------------

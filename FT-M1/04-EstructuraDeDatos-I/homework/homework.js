@@ -20,7 +20,13 @@ function nFactorial(n) {
 }
 
 function nFibonacci(n) {
-  
+  if(n === 0) {
+    return 0;
+  }else if(n === 1){
+    return 1;
+  }else{
+    return nFibonacci(n -2) + nFibonacci(n -1);
+  }
 }
 
 /*
@@ -33,7 +39,22 @@ Pueden utilizar class o función constructora.
 */
 
 function Queue() {
+  this.array = [];
+}
 
+Queue.prototype.enqueue = function (value) {
+  return this.array.push(value);
+}
+
+Queue.prototype.dequeue = function () {
+  if(this.array.lenth <=0){
+    return undefined;
+  }
+  return this.array.shift();
+}
+
+Queue.prototype.size = function () {
+  return this.array.length;
 }
 
 // No modifiquen nada debajo de esta linea
