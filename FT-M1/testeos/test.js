@@ -1,38 +1,50 @@
-function testA(num) {
+function BinarioADecimal(num) {
   // convierte bimario a entero
-  return parseInt(num, 2);
+  // return parseInt(num, 2);
 
-  // const entero = [];
-  // const binary = [num];
-  //  for(let i=0;i<binary.lenth;i++){
-  //   entero.push((binary[i]*2)**(binary.lenth-i));
-  // }
-  // return entero.reduce((a,b) => a + b);
+  // 1 0 1 1 0
+  // ↑ ↑ ↑ ↑ ↑
+  // 4 3 2 1 0
+
+  // 1 * 2 ** 4 = 16 +
+  // 0 * 2 ** 3 = 0 +
+  // 1 * 2 ** 2 = 4 +
+  // 1 * 2 ** 1 = 2 +
+  // 0 * 2 ** 0 = 0 +
+  //           => 22
+
+  let binario = num.split('').reverse();
+  let suma = 0;
+  for (let i = 0; i < binario.length; i++) {
+    suma += binario[i] * 2 ** i;
+  }
+  return suma;
 }
 
-function testB(num) {
+function DecimalABinario(num) {
   // convierte entero a binario
-  // return parseFloat(num);
 
   // ej:
-  // 21/2 = .round => 10,  21%2 => 1 last
-  // 10/2 = .round => 5, 10%2 => 0
-  // 5/2 = 2 .round, 5%2 => 1
-  // 2/2 = 1 .round, 2%2 => 0
-  // 1/2 = 0 .round, 1%2 => 1 first
-  // 10101
+  // rest => 21 % 2 = 1 | next => 21 / 2 = 10.5.floor
+  // rest => 10 % 2 = 0 | next => 10 / 2 = 5.floor
+  // rest => 5 % 2 = 1 | next => 5 / 2 = 2.5.floor
+  // rest => 2 % 2 = 0 | next => 2 / 2 = 1.floor
+  // rest => 1 % 2 = 1 | next => 1 / 2 = 0.5.floor
+  // 0
 
+  let rest = 0;
   const binary = [];
-  let next = num;
-  while (next > 1) {
-    binary.unshift(Math.floor(next) % 2);
-    next = next / 2;
+  while(num > 0){
+    rest= num % 2; 
+    binary.unshift(rest);
+    num = Math.floor(num / 2);
+    
   }
   return binary.join('');
 }
 
-console.log(testA(1011));
-console.log(testB(11));
+console.log(DecimalABinario('21'));
+console.log(BinarioADecimal('10101'));
 console.clear();
 
 //-----------------------Recursividad------------------------------
@@ -96,7 +108,7 @@ Queue.prototype.enqueue = function (value) {
 }
 
 Queue.prototype.dequeue = function () {
-  if(this.array.lenth <=0){
+  if(this.array.length <=0){
     return undefined;
   }
   return this.array.shift();

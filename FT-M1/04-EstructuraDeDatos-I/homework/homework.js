@@ -47,7 +47,7 @@ Queue.prototype.enqueue = function (value) {
 }
 
 Queue.prototype.dequeue = function () {
-  if(this.array.lenth <=0){
+  if(this.array.length <=0){
     return undefined;
   }
   return this.array.shift();
