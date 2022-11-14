@@ -17,7 +17,7 @@ Lista.prototype.push = function(data) { // Insert Last
 	if (this.point == null) {
 		this.point = newNodo;
 	} else {
-		pointer = this.point;
+		let pointer = this.point;
 		while (pointer.next!=null) {
 			pointer = pointer.next;
 		}
@@ -55,7 +55,7 @@ Lista.prototype.insert = function(data,pos) {
 }
 
 Lista.prototype.print = function() {
-	pointer = this.point;
+	let pointer = this.point;
 	while (pointer.next!=null) {
 		console.log(pointer.data);
 		pointer = pointer.next;
@@ -81,7 +81,7 @@ Lista.prototype.deleteFirst = function() {
 }
 
 Lista.prototype.deleteLast = function() {	
-	pointer = this.point;
+	let pointer = this.point;
 	while (pointer.next.next!=null) {
 		pointer = pointer.next;
 	}
@@ -105,11 +105,12 @@ Lista.prototype.find = function(val) {
 	} 
 }
 
-// var list = new Lista();
+var list = new Lista();
 
-// list.push(1);
-// list.push(2);
-// list.push(3);
-// list.push(4);
-
-// list.print()
+list.push(1);
+list.push(2);
+list.push(3);
+list.push(4);
+list.deleteLast();
+list.print()
+console.log(list)

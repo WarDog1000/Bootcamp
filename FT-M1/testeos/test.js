@@ -34,11 +34,11 @@ function DecimalABinario(num) {
 
   let rest = 0;
   const binary = [];
-  while(num > 0){
-    rest= num % 2; 
+  while (num > 0) {
+    rest = num % 2;
     binary.unshift(rest);
     num = Math.floor(num / 2);
-    
+
   }
   return binary.join('');
 }
@@ -58,12 +58,12 @@ console.clear();
 
 // Fibonasi
 function nFibonacci(n) {
-  if(n === 0) {
+  if (n === 0) {
     return 0;
-  }else if(n === 1){
+  } else if (n === 1) {
     return 1;
-  }else{
-    return nFibonacci(n -2) + nFibonacci(n -1);
+  } else {
+    return nFibonacci(n - 2) + nFibonacci(n - 1);
   }
 }
 console.log(nFibonacci(4));
@@ -108,7 +108,7 @@ Queue.prototype.enqueue = function (value) {
 }
 
 Queue.prototype.dequeue = function () {
-  if(this.array.length <=0){
+  if (this.array.length <= 0) {
     return undefined;
   }
   return this.array.shift();
@@ -133,12 +133,12 @@ console.log(miQueue.size());
 console.clear();
 
 // LinkedList-------------------------------------------------------------
-function LinkedList() {
+function Lista() {
   this.head = null;
 }
 
 
-LinkedList.prototype.add = function (value) {
+Lista.prototype.add = function (value) {
   // creamos el nuevo Nodo
   const newNode = new Node(value);
 
@@ -146,13 +146,13 @@ LinkedList.prototype.add = function (value) {
   let current = this.head;
 
   // si no tenemos head, insertamos el nodo al HEAD
-  if(current === null){
+  if (current === null) {
     this.head = newNode;
     return value;
   }
 
   // mientras current tenga un valor donde ir => next=null
-  while(current.next !== null){ // si this.head.next = {value: 1, next = null}
+  while (current.next !== null) { // si this.head.next = {value: 1, next = null}
     current = current.next; // current = this.head.next => {value: 1, next = null}
   }
 
@@ -160,8 +160,107 @@ LinkedList.prototype.add = function (value) {
   return value;
 }
 
-const miListDemo = new LinedList();
+const miListDemo = new Lista();
 miListDemo.add(10);
+
+// LinkedList-------------------------------------------------------------
+/*
+Implementar la clase LinkedList, definiendo los siguientes métodos:
+  - add: agrega un nuevo nodo al final de la lista;
+  - remove: elimina el último nodo de la lista y retorna su valor (tener en cuenta el caso particular de una lista de un solo nodo y de una lista vacía);
+  - search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un nodo cuyo valor coincida con lo buscado; en el segundo, buscamos un nodo cuyo valor, al ser pasado como parámetro del callback, retorne true. 
+  Ejemplo: 
+  search(3) busca un nodo cuyo valor sea 3;
+  search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
+  En caso de que la búsqueda no arroje resultados, search debe retornar null.
+*/
+function LinkedList() {
+  this.head = null;
+  this.len = 0;
+}
+
+function Node(value) {
+  this.value = value;
+  this.next = null;
+}
+
+LinkedList.prototype.add = function (value) {
+  const newNode = new Node(value);
+  let current = this.head;
+  this.len++;
+
+  if (current === null) {
+    this.head = newNode;
+    return value;
+  }
+  while (current.next !== null) {
+    current = current.next;
+  }
+  current.next = newNode;
+  return value;
+
+  // var newNodo = new Node(value);
+  // let current = this.head;
+  // if (current == null) {
+  // 	current = newNodo;
+  //   return value;
+  // } else {
+  // 	current = current.next;
+  // 	while (current.next !== null) {
+  // 		current = current.next;
+  // 	}
+  // 	current.next = newNodo;
+  // }
+  // this.len++;
+  // return value;
+}
+
+LinkedList.prototype.remove = function () {
+  let value;
+  if (this.len <= 0) {
+    return null;
+  } else if (this.len == 1) {
+    value = this.head.value;
+    this.head = null;
+    this.len--;
+    return value;
+  } else {
+    let current = this.head;
+    while (current.next.next != null) {
+      current = current.next;
+    }
+    value = current.next.value;
+    current.next = null;
+    this.len--;
+    return value;
+  }
+}
+
+LinkedList.prototype.search = function (value) {
+  if (this.len == 0) return console.log('Es una lista vacia');
+  var pointer = this.point;
+  var check = false;
+  if (pointer.value == value) check = true;
+  while (!check && pointer.next != null) {
+    pointer = pointer.next;
+    if (pointer.value == value) check = true;
+  }
+  if (check) {
+    return pointer.value;
+  } else {
+    return undefined;
+  }
+}
+
+const miList = new LinkedList();
+miList.add('#1')
+// miList.add('#2')
+// miList.add('#3')
+console.log(miList)
+miList.remove();
+console.log(miList)
+miList.search('#1')
+
 
 
 //-----------------------------------------------
@@ -170,7 +269,7 @@ function hashtable() {
   this.bucets = [];
 }
 
-function hash(string) {}
+function hash(string) { }
   //J => charCodeAt => codigo numerico de J = 10
   //O => charCodeAt => codigo numerico de J = 5
   //R => charCodeAt => codigo numerico de J = 12
