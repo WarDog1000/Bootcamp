@@ -13,7 +13,7 @@ function BinarioADecimal(num) {
   // 0 * 2 ** 0 = 0 +
   //           => 22
 
-  let binario = num.split('').reverse();
+  let binario = num.split("").reverse();
   let suma = 0;
   for (let i = 0; i < binario.length; i++) {
     suma += binario[i] * 2 ** i;
@@ -38,13 +38,12 @@ function DecimalABinario(num) {
     rest = num % 2;
     binary.unshift(rest);
     num = Math.floor(num / 2);
-
   }
-  return binary.join('');
+  return binary.join("");
 }
 
-console.log(DecimalABinario('21'));
-console.log(BinarioADecimal('10101'));
+console.log(DecimalABinario("21"));
+console.log(BinarioADecimal("10101"));
 console.clear();
 
 //-----------------------Recursividad------------------------------
@@ -77,15 +76,15 @@ function Stack() {
 
 Stack.prototype.setPush = function (value) {
   this.arr.push(value);
-}
+};
 
 Stack.prototype.setPop = function () {
   this.arr.pop();
-}
+};
 
 Stack.prototype.getSize = function () {
   return this.arr.length;
-}
+};
 
 var miStack = new Stack();
 console.log(miStack);
@@ -105,18 +104,18 @@ function Queue() {
 
 Queue.prototype.enqueue = function (value) {
   return this.array.push(value);
-}
+};
 
 Queue.prototype.dequeue = function () {
   if (this.array.length <= 0) {
     return undefined;
   }
   return this.array.shift();
-}
+};
 
 Queue.prototype.size = function () {
   return this.array.length;
-}
+};
 
 var miQueue = new Queue();
 console.log(miQueue);
@@ -137,7 +136,6 @@ function Lista() {
   this.head = null;
 }
 
-
 Lista.prototype.add = function (value) {
   // creamos el nuevo Nodo
   const newNode = new Node(value);
@@ -152,13 +150,14 @@ Lista.prototype.add = function (value) {
   }
 
   // mientras current tenga un valor donde ir => next=null
-  while (current.next !== null) { // si this.head.next = {value: 1, next = null}
+  while (current.next !== null) {
+    // si this.head.next = {value: 1, next = null}
     current = current.next; // current = this.head.next => {value: 1, next = null}
   }
 
   current.next = newNode;
   return value;
-}
+};
 
 const miListDemo = new Lista();
 miListDemo.add(10);
@@ -189,13 +188,20 @@ LinkedList.prototype.add = function (value) {
   let current = this.head;
   this.len++;
 
+  // si la lista estaba vacia, insertamos el nodo en su head
   if (current === null) {
+    //(!current)
     this.head = newNode;
     return value;
   }
+
+  // se mueve   hasta llegar a un next vacio
   while (current.next !== null) {
+    //(current.next)
     current = current.next;
   }
+
+  // inserta un nodo en la propriedad next del nodo
   current.next = newNode;
   return value;
 
@@ -213,18 +219,21 @@ LinkedList.prototype.add = function (value) {
   // }
   // this.len++;
   // return value;
-}
+};
 
 LinkedList.prototype.remove = function () {
   let value;
   if (this.len <= 0) {
+    // si la lsita esta vacia
     return null;
   } else if (this.len == 1) {
+    // si la lista tiene un solo nodo
     value = this.head.value;
     this.head = null;
     this.len--;
     return value;
   } else {
+    // si la lista no esta vacia y no tiene un solo nodo
     let current = this.head;
     while (current.next.next != null) {
       current = current.next;
@@ -234,45 +243,92 @@ LinkedList.prototype.remove = function () {
     this.len--;
     return value;
   }
-}
+};
 
-LinkedList.prototype.search = function (value) {
-  if (this.len == 0) return console.log('Es una lista vacia');
-  var pointer = this.point;
-  var check = false;
-  if (pointer.value == value) check = true;
-  while (!check && pointer.next != null) {
-    pointer = pointer.next;
-    if (pointer.value == value) check = true;
+LinkedList.prototype.search = function (arg) {
+  let current = this.head;
+  // recorre la lista hasta llegar al final
+  while (current) {
+    // si el agrgumento es una funcion?
+    if (typeof arg === "function") {
+      // se pasa el value actual a la funcion
+      if (arg(current.value)) {
+        // si el resultado de la funcion es true, devuelve el valor actual
+        return current.value;
+      }
+    } else {
+      // si es un dato, comparo que sea igual al valor actual
+      if (current.value === arg) {
+        // si el dato es igual al valor actual, lo devuelvo
+        return current.value;
+      }
+    }
+    // me muevo a la siguiente posicion
+    current = current.next;
   }
-  if (check) {
-    return pointer.value;
-  } else {
-    return undefined;
-  }
-}
+  // si recorri toda la lista y no encontre nada, retorno null
+  return null;
+};
 
 const miList = new LinkedList();
-miList.add('#1')
+miList.add("#1");
 // miList.add('#2')
 // miList.add('#3')
-console.log(miList)
+console.log(miList);
 miList.remove();
-console.log(miList)
-miList.search('#1')
+console.log(miList);
+miList.search("#1");
 
+// hashTable-----------------------------------------------
+// J => charCodeAt => codigo numerico de J = 10
+// O => charCodeAt => codigo numerico de J = 5
+// R => charCodeAt => codigo numerico de J = 12
+// G => charCodeAt => codigo numerico de J = 6
+// E => charCodeAt => codigo numerico de J = 1
+// total = 34
+// resultado = Total % numBuckets => INDICE
 
+function HashTable() {
+  this.numBuckets = 35;
+  this.buckets = [];
+ }
 
-//-----------------------------------------------
-function hashtable() {
-  this.numbacets = 35;
-  this.bucets = [];
-}
+ HashTable.prototype.hash = function (string) {
+  let acumulador = 0;
+  for(const caracter of string){
+    const num = caracter.charCodeAt();
+    acumulador += num;
+  }
+  return acumulador % this.numBuckets;
+ }
 
-function hash(string) { }
-  //J => charCodeAt => codigo numerico de J = 10
-  //O => charCodeAt => codigo numerico de J = 5
-  //R => charCodeAt => codigo numerico de J = 12
-  //G => charCodeAt => codigo numerico de J = 6
-  //E => charCodeAt => codigo numerico de J = 1
-  //
+ HashTable.prototype.set = function (key, value) {
+  // si la clave no es un string, arroja un error
+  if(typeof key !== 'string') throw TypeError('Keys must be strings');
+
+  // sacamos el indice con la funcion hash
+  const index = this.hash(key);
+
+  // si no hay nada en ese indice del arreglo
+  if(!this.buckets[index]){
+    // almacenamos un objeto en ese indice del arreglo
+  this.buckets[index] = {};
+  }
+  // le agregamos a ese objeto una clave igual al valor ingresado
+  this.buckets[index][key] = value;
+ }
+
+ HashTable.prototype.get = function (key) {
+  const index = this.hash(key);
+  // si NO esta la propriedad, retornamos un undefined
+  if(!this.buckets[index][key]) return undefined;
+  // si esta la propriedad, la retornamos
+  return this.buckets[index][key];
+ }
+
+ HashTable.prototype.hasKey = function (key) {
+  const index = this.hash(key);
+
+  // retorna true o false si se encuentra la propriedad
+  return !!this.buckets[index][key];
+ }

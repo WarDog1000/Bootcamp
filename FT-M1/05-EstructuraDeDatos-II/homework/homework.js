@@ -58,8 +58,21 @@ LinkedList.prototype.remove = function () {
   }
 }
 
-LinkedList.prototype.search = function (value) {
- 
+LinkedList.prototype.search = function (arg) {
+  let current = this.head;
+  while (current) {
+    if (typeof arg === "function") {
+      if (arg(current.value)) {
+        return current.value;
+      }
+    } else {
+      if (current.value === arg) {
+        return current.value;
+      }
+    }
+    current = current.next;
+  }
+  return null;
 }
 
 /*
@@ -77,7 +90,41 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() { }
+function HashTable() {
+  this.numBuckets = 35;
+  this.buckets = [];
+ }
+
+ HashTable.prototype.hash = function (string) {
+  let acumulador = 0;
+  for(const caracter of string){
+    const num = caracter.charCodeAt();
+    acumulador += num;
+  }
+  return acumulador % this.numBuckets;
+ }
+
+ HashTable.prototype.set = function (key, value) {
+  if(typeof key !== 'string') throw TypeError('Keys must be strings');
+  
+  const index = this.hash(key);
+
+  if(!this.buckets[index]){
+  this.buckets[index] = {};
+  }
+  this.buckets[index][key] = value;
+ }
+
+ HashTable.prototype.get = function (key) {
+  const index = this.hash(key);
+  if(!this.buckets[index][key]) return undefined;
+  return this.buckets[index][key];
+ }
+
+ HashTable.prototype.hasKey = function (key) {
+  const index = this.hash(key);
+  return !!this.buckets[index][key];
+ }
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
