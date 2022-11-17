@@ -69,6 +69,7 @@ console.log(nFibonacci(4));
 console.clear();
 
 //-----------------------Estructura de Datos------------------------------
+
 // STACK => LIFO (last in, first out)-------------------------------------
 function Stack() {
   this.arr = [];
@@ -332,3 +333,122 @@ function HashTable() {
   // retorna true o false si se encuentra la propriedad
   return !!this.buckets[index][key];
  }
+
+// BinaryTree-------------------------------------------------------------
+/*
+ Implementar la clase BinarySearchTree, definiendo los siguientes métodos recursivos:
+  - size: retorna la cantidad total de nodos del árbol
+  - insert: agrega un nodo en el lugar correspondiente
+  - contains: retorna true o false luego de evaluar si cierto valor existe dentro del árbol
+  - depthFirstForEach: recorre el árbol siguiendo el orden depth first (DFS) en cualquiera de sus variantes, según se indique por parámetro ("post-order", "pre-order", o "in-order"). Nota: si no se provee ningún parámetro, hará el recorrido "in-order" por defecto.
+  - breadthFirstForEach: recorre el árbol siguiendo el orden breadth first (BFS)
+
+  El ábrol utilizado para hacer los tests se encuentra representado en la imagen bst.png dentro del directorio homework.
+*/
+function BinarySearchTree(value) {
+  this.value = value;
+  this.left = null;
+  this.right = null;
+}
+
+BinarySearchTree.prototype.size = function () {
+  let count = 1;
+  if (this.left) {
+    count += this.left.size();
+  }
+  if (this.right) {
+    count += this.right.size();
+  }
+  return count;
+};
+BinarySearchTree.prototype.insert = function (value) {
+  // me pregunto si es mayor o menor => derecha | izquierda
+  // pregunto si hay algo ene esa direccion
+  // si no hay NamedNodeMap, inserto un nuevo nodo
+  // si hay algo, inserto hacia ese lado
+
+  if (value < this.value) {
+    // es menor LEFT
+    if (this.left) {
+      // si hay algo em left
+      this.left.insert(value);
+    } else {
+      // si no hay nada en left
+      this.left = new BinarySearchTree(value);
+      return value; //para cortar la ejecucion
+    }
+  } else {
+    // es mayor RIGHT
+    if (this.right) {
+      // si hay algo em right
+      this.right.insert(value);
+    } else {
+      // si no hay nada en right
+      this.right = new BinarySearchTree(value);
+      return value; //para cortar la ejecucion
+    }
+  }
+};
+BinarySearchTree.prototype.contains = function (value) {
+  if (this.value === value) return true; // devuelve verdaderp si el valor que estoy buscando se encuentra en el primer nivel
+
+  //  tengo algo a la izquierda y el valor esta?
+  if (this.left && this.left.contains(value)) return true;
+
+  //  tengo algo a la derecha y el valor esta?
+  if (this.right && this.right.contains(value)) return true;
+
+  // si ninguno de los casos se cumple
+  return false;
+};
+BinarySearchTree.prototype.depthFirstForEach = function (cb, type) {
+  // in order (caso por defecto)
+  // post order
+  // pre order
+
+  switch (type) {
+    case 'pre-order':
+      // nodo
+      cb(this.value);
+      // izquierda
+      if(this.left) this.left.depthFirstForEach(cb, type);
+      // derecha
+      if(this.right) this.right.depthFirstForEach(cb, type);
+      break;
+    case 'post-order':
+      // izquierda
+      if(this.left) this.left.depthFirstForEach(cb, type);
+      // derecha
+      if(this.right) this.right.depthFirstForEach(cb, type);
+      // nodo
+      cb(this.value);
+      break;
+    default:
+      // izquierda
+      if(this.left) this.left.depthFirstForEach(cb, type);
+      // nodo
+      cb(this.value);
+      // derecha
+      if(this.right) this.right.depthFirstForEach(cb, type);
+      break;
+  }
+};
+BinarySearchTree.prototype.breadthFirstForEach = function (cb, queue) {
+  // queue (pila)
+  // niveles
+
+  // si ya te pase una pila, no me crees otra, sino crea una pila
+  if (!queue){
+    var queue = [];
+  }
+
+  // ejecuto la callback
+  cb(this.value);
+  // guardo mis hijos
+  if(this.left) queue.push(this.left); // si tengo hijos a la izquierda
+  if(this.right) queue.push(this.right); // si tengo hijos a la derecha
+
+  if(queue.length > 0){
+    queue.shift().breadthFirstForEach(cb, queue);
+  }
+};
